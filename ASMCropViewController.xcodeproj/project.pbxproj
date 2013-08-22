@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B494246A17C63EA7004308A1 /* IMG_7999.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B494246917C63EA6004308A1 /* IMG_7999.jpg */; };
 		B4C2B75817C6271C001B95F3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4C2B75717C6271C001B95F3 /* Foundation.framework */; };
 		B4C2B75A17C6271C001B95F3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4C2B75917C6271C001B95F3 /* CoreGraphics.framework */; };
 		B4C2B75C17C6271C001B95F3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4C2B75B17C6271C001B95F3 /* UIKit.framework */; };
@@ -20,7 +21,6 @@
 		B4C2B77917C6271C001B95F3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4C2B75B17C6271C001B95F3 /* UIKit.framework */; };
 		B4C2B78117C6271C001B95F3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B4C2B77F17C6271C001B95F3 /* InfoPlist.strings */; };
 		B4C2B78317C6271C001B95F3 /* ASMCropViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C2B78217C6271C001B95F3 /* ASMCropViewControllerTests.m */; };
-		B4C2B78D17C62896001B95F3 /* IMG_6413.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B4C2B78C17C62896001B95F3 /* IMG_6413.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B494246917C63EA6004308A1 /* IMG_7999.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_7999.jpg; sourceTree = "<group>"; };
 		B4C2B75417C6271C001B95F3 /* ASMCropViewController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ASMCropViewController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4C2B75717C6271C001B95F3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B4C2B75917C6271C001B95F3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -52,7 +53,6 @@
 		B4C2B77E17C6271C001B95F3 /* ASMCropViewControllerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ASMCropViewControllerTests-Info.plist"; sourceTree = "<group>"; };
 		B4C2B78017C6271C001B95F3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B4C2B78217C6271C001B95F3 /* ASMCropViewControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ASMCropViewControllerTests.m; sourceTree = "<group>"; };
-		B4C2B78C17C62896001B95F3 /* IMG_6413.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_6413.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,7 +112,7 @@
 		B4C2B75D17C6271C001B95F3 /* ASMCropViewController */ = {
 			isa = PBXGroup;
 			children = (
-				B4C2B78C17C62896001B95F3 /* IMG_6413.jpg */,
+				B494246917C63EA6004308A1 /* IMG_7999.jpg */,
 				B4C2B76617C6271C001B95F3 /* ASMAppDelegate.h */,
 				B4C2B76717C6271C001B95F3 /* ASMAppDelegate.m */,
 				B4C2B76C17C6271C001B95F3 /* ASMCropImageViewController.h */,
@@ -231,7 +231,7 @@
 			files = (
 				B4C2B77017C6271C001B95F3 /* Images.xcassets in Resources */,
 				B4C2B76217C6271C001B95F3 /* InfoPlist.strings in Resources */,
-				B4C2B78D17C62896001B95F3 /* IMG_6413.jpg in Resources */,
+				B494246A17C63EA7004308A1 /* IMG_7999.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

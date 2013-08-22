@@ -13,7 +13,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	self.window.rootViewController = [[ASMCropImageViewController alloc] init];
+	self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+	
+	ASMCropImageViewController* cropImageViewController = [[ASMCropImageViewController alloc] init];
+	cropImageViewController.image = [UIImage imageNamed:@"IMG_7999.jpg"];
+	self.window.rootViewController = cropImageViewController;
+	
+	[self.window makeKeyAndVisible];
 	
     return YES;
 }
