@@ -7,10 +7,11 @@
 //
 
 #import "ASMCropImageViewController.h"
+#import "ASMImageCropView.h"
 
 @interface ASMCropImageViewController () <UIScrollViewDelegate>
 @property (strong, nonatomic) UIScrollView* scrollView;
-@property (strong, nonatomic) UIImageView* imageView;
+@property (strong, nonatomic) ASMImageCropView* imageView;
 @end
 
 @implementation ASMCropImageViewController
@@ -21,7 +22,7 @@
 	self.scrollView.delegate = self;
 	[self.view addSubview:self.scrollView];
 	
-	self.imageView = [[UIImageView alloc] initWithFrame:self.scrollView.bounds];
+	self.imageView = [[ASMImageCropView alloc] initWithFrame:self.scrollView.bounds];
 	[self.scrollView addSubview:self.imageView];
 	
 	[self setupImageView];
