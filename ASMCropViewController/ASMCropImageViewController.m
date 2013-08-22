@@ -11,7 +11,9 @@
 
 @interface ASMCropImageViewController () <UIScrollViewDelegate>
 @property (strong, nonatomic) UIScrollView* scrollView;
-@property (strong, nonatomic) ASMImageCropView* imageView;
+
+@property (strong, nonatomic) UIImageView* imageView;
+@property (strong, nonatomic) ASMImageCropView* cropView;
 @end
 
 @implementation ASMCropImageViewController
@@ -22,8 +24,11 @@
 	self.scrollView.delegate = self;
 	[self.view addSubview:self.scrollView];
 	
-	self.imageView = [[ASMImageCropView alloc] initWithFrame:self.scrollView.bounds];
+	self.imageView = [[UIImageView alloc] initWithFrame:self.scrollView.bounds];
 	[self.scrollView addSubview:self.imageView];
+
+	self.cropView = [[ASMImageCropView alloc] initWithFrame:self.scrollView.bounds];
+	[self.view addSubview:self.cropView];
 	
 	[self setupImageView];
 }
@@ -32,7 +37,7 @@
 {
 	[self.imageView setImage:self.image];
 	[self.imageView sizeToFit];
-
+	
 	self.scrollView.contentSize = self.imageView.frame.size;
 	
 	CGFloat zoomScale = MIN(CGRectGetWidth(self.scrollView.frame) / self.scrollView.contentSize.width,
@@ -40,12 +45,35 @@
 	
 	self.scrollView.minimumZoomScale = zoomScale;
 	self.scrollView.zoomScale = zoomScale;
+	self.cropView.zoomScale = self.scrollView.zoomScale;
+	
+	// For testing
+	CGRect cropRect = self.imageView.bounds;
+	cropRect = CGRectInset(cropRect, 100, 100);
+	self.cropView.cropFrame = cropRect;
 }
 
 - (void)setImage:(UIImage *)image
 {
 	_image = image;
 	[self setupImageView];
+}
+
+- (CGSize)offsetForScrollView:(UIScrollView*)scrollView
+{
+	CGFloat offsetX = 0.0f;
+	if ( scrollView.bounds.size.width > scrollView.contentSize.width )
+	{
+		offsetX = (scrollView.bounds.size.width - scrollView.contentSize.width) * 0.5f;
+	}
+	
+	CGFloat offsetY = 0.0f;
+	if ( scrollView.bounds.size.height > scrollView.contentSize.height )
+	{
+		offsetY = (scrollView.bounds.size.height - scrollView.contentSize.height) * 0.5f;
+	}
+	
+	return CGSizeMake(offsetX, offsetY);
 }
 
 #pragma mark Scroll View Delegate
@@ -55,27 +83,32 @@
 	return self.imageView;
 }
 
+- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view
+{
+}
+
 - (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(float)scale
 {
-	
 }
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView
 {
-	CGFloat offsetX = 0.0f;
-	if ( scrollView.bounds.size.width > scrollView.contentSize.width )
-	{
-		offsetX = (scrollView.bounds.size.width - scrollView.contentSize.width) * 0.5f;
-	}
+	CGSize offset = [self offsetForScrollView:scrollView];
+	
+	self.imageView.center = CGPointMake(scrollView.contentSize.width * 0.5f + offset.width,
+										scrollView.contentSize.height * 0.5f + offset.height);
 
-	CGFloat offsetY = 0.0f;
-	if ( scrollView.bounds.size.height > scrollView.contentSize.height )
-	{
-		offsetY = (scrollView.bounds.size.height - scrollView.contentSize.height) * 0.5f;
-	}
+	
+	self.cropView.zoomScale = scrollView.zoomScale;
+	self.cropView.offset = CGSizeMake(offset.width - self.scrollView.contentOffset.x,
+									  offset.height - self.scrollView.contentOffset.y);
+}
 
-    self.imageView.center = CGPointMake(scrollView.contentSize.width * 0.5f + offsetX,
-										scrollView.contentSize.height * 0.5f + offsetY);
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+	CGSize offset = [self offsetForScrollView:scrollView];
+	self.cropView.offset = CGSizeMake(offset.width - self.scrollView.contentOffset.x,
+									  offset.height - self.scrollView.contentOffset.y);
 }
 
 @end

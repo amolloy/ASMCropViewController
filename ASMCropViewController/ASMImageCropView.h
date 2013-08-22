@@ -10,6 +10,8 @@
 
 @interface ASMImageCropView : UIView
 
-- (void)setImage:(UIImage*)image;
+@property (assign, nonatomic) CGRect cropFrame;
+@property (assign, nonatomic) CGFloat zoomScale;
+@property (assign, nonatomic) CGSize offset;
 
 @end
