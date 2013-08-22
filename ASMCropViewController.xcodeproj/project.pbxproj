@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B494246A17C63EA7004308A1 /* IMG_7999.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B494246917C63EA6004308A1 /* IMG_7999.jpg */; };
+		B494246D17C6445D004308A1 /* ASMImageCropView.m in Sources */ = {isa = PBXBuildFile; fileRef = B494246C17C6445D004308A1 /* ASMImageCropView.m */; };
 		B4C2B75817C6271C001B95F3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4C2B75717C6271C001B95F3 /* Foundation.framework */; };
 		B4C2B75A17C6271C001B95F3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4C2B75917C6271C001B95F3 /* CoreGraphics.framework */; };
 		B4C2B75C17C6271C001B95F3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4C2B75B17C6271C001B95F3 /* UIKit.framework */; };
@@ -35,6 +36,8 @@
 
 /* Begin PBXFileReference section */
 		B494246917C63EA6004308A1 /* IMG_7999.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_7999.jpg; sourceTree = "<group>"; };
+		B494246B17C6445D004308A1 /* ASMImageCropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASMImageCropView.h; sourceTree = "<group>"; };
+		B494246C17C6445D004308A1 /* ASMImageCropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASMImageCropView.m; sourceTree = "<group>"; };
 		B4C2B75417C6271C001B95F3 /* ASMCropViewController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ASMCropViewController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4C2B75717C6271C001B95F3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B4C2B75917C6271C001B95F3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -117,6 +120,8 @@
 				B4C2B76717C6271C001B95F3 /* ASMAppDelegate.m */,
 				B4C2B76C17C6271C001B95F3 /* ASMCropImageViewController.h */,
 				B4C2B76D17C6271C001B95F3 /* ASMCropImageViewController.m */,
+				B494246B17C6445D004308A1 /* ASMImageCropView.h */,
+				B494246C17C6445D004308A1 /* ASMImageCropView.m */,
 				B4C2B76F17C6271C001B95F3 /* Images.xcassets */,
 				B4C2B75E17C6271C001B95F3 /* Supporting Files */,
 			);
@@ -250,6 +255,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B494246D17C6445D004308A1 /* ASMImageCropView.m in Sources */,
 				B4C2B76817C6271C001B95F3 /* ASMAppDelegate.m in Sources */,
 				B4C2B76417C6271C001B95F3 /* main.m in Sources */,
 				B4C2B76E17C6271C001B95F3 /* ASMCropImageViewController.m in Sources */,
