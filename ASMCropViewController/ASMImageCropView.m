@@ -15,6 +15,7 @@ static const NSInteger sHandleTolerance = 44;
 @property (assign, nonatomic) BOOL draggingBottom;
 @property (assign, nonatomic) BOOL draggingLeft;
 @property (assign, nonatomic) BOOL draggingRight;
+@property (assign, nonatomic) BOOL draggingFrame;
 @property (assign, nonatomic) CGRect initialCropFrame;
 @end
 
@@ -49,6 +50,7 @@ static const NSInteger sHandleTolerance = 44;
 		self.draggingBottom = NO;
 		self.draggingRight = NO;
 		self.draggingLeft = NO;
+		self.draggingFrame = NO;
 	}
 	else
 	{
@@ -57,27 +59,34 @@ static const NSInteger sHandleTolerance = 44;
 		CGAffineTransform cropBoxTransform = [self cropBoxTransform];
 		CGRect transformedBox = CGRectApplyAffineTransform(self.initialCropFrame, cropBoxTransform);
 		
-		UIEdgeInsets insets = UIEdgeInsetsZero;
-		
-		if (self.draggingTop)
+		if (self.draggingFrame)
 		{
-			insets.top = offset.y;
+			transformedBox = CGRectOffset(transformedBox, offset.x, offset.y);
 		}
-		else if (self.draggingBottom)
+		else
 		{
-			insets.bottom = -offset.y;
+			UIEdgeInsets insets = UIEdgeInsetsZero;
+			
+			if (self.draggingTop)
+			{
+				insets.top = offset.y;
+			}
+			else if (self.draggingBottom)
+			{
+				insets.bottom = -offset.y;
+			}
+			
+			if (self.draggingLeft)
+			{
+				insets.left = offset.x;
+			}
+			else if (self.draggingRight)
+			{
+				insets.right = -offset.x;
+			}
+			
+			transformedBox = UIEdgeInsetsInsetRect(transformedBox, insets);
 		}
-		
-		if (self.draggingLeft)
-		{
-			insets.left = offset.x;
-		}
-		else if (self.draggingRight)
-		{
-			insets.right = -offset.x;
-		}
-		
-		transformedBox = UIEdgeInsetsInsetRect(transformedBox, insets);
 		
 		self.cropFrame = CGRectApplyAffineTransform(transformedBox, CGAffineTransformInvert(cropBoxTransform));
 		self.cropFrame = CGRectStandardize(self.cropFrame);
@@ -91,6 +100,8 @@ static const NSInteger sHandleTolerance = 44;
     UIView* hitView = [super hitTest:point withEvent:event];
     if (hitView == self)
 	{
+		hitView = nil;
+		
 		CGAffineTransform cropBoxTransform = [self cropBoxTransform];
 		CGRect transformedBox = CGRectApplyAffineTransform(self.cropFrame, cropBoxTransform);
 		
@@ -122,16 +133,26 @@ static const NSInteger sHandleTolerance = 44;
 					self.draggingLeft = YES;
 				}
 				
-				return self;
+				hitView = self;
+			}
+			else
+			{
+				UIEdgeInsets insets = UIEdgeInsetsMake(CGRectGetHeight(outerBox) / 3,
+													   CGRectGetWidth(outerBox) / 3,
+													   CGRectGetHeight(outerBox) / 3,
+													   CGRectGetWidth(outerBox) / 3);
+				CGRect dragBox = UIEdgeInsetsInsetRect(outerBox, insets);
+				
+				if (CGRectContainsPoint(dragBox, point))
+				{
+					self.draggingFrame = YES;
+					hitView = self;
+				}
 			}
 		}
+    }
 
-		return nil;
-    }
-    else
-	{
-        return hitView;
-    }
+	return hitView;
 }
 
 - (void)setZoomScale:(CGFloat)zoomScale
