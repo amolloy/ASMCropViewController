@@ -253,6 +253,8 @@ static const NSInteger sHandleTolerance = 22;
 	
 	// Draw the corner handles
 	{
+		CGFloat cornerStrokeWidth = outlineStrokeWidth * 2;
+		
 		CGFloat handleOffset = outlineStrokeWidth / self.zoomScale;
 		
 		CGMutablePathRef cornerPath = CGPathCreateMutable();
@@ -315,7 +317,7 @@ static const NSInteger sHandleTolerance = 22;
 		
 		CGContextAddPath(ctx, cornerPath);
 		CGPathRelease(cornerPath);
-		CGContextSetLineWidth(ctx, 4);
+		CGContextSetLineWidth(ctx, cornerStrokeWidth);
 		CGContextStrokePath(ctx);
 	}
 	
