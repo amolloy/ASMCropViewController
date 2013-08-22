@@ -8,7 +8,14 @@
 
 #import "ASMImageCropView.h"
 
+static const NSInteger sHandleTolerance = 44;
+
 @interface ASMImageCropView ()
+@property (assign, nonatomic) BOOL draggingTop;
+@property (assign, nonatomic) BOOL draggingBottom;
+@property (assign, nonatomic) BOOL draggingLeft;
+@property (assign, nonatomic) BOOL draggingRight;
+@property (assign, nonatomic) CGRect initialCropFrame;
 @end
 
 @implementation ASMImageCropView
@@ -24,8 +31,59 @@
 		self.cropFrame = CGRectMake(0, 0, frame.size.width, frame.size.height);
 		// For testing
 		self.cropFrame = CGRectInset(self.cropFrame, 100, 100);
+		
+		UIPanGestureRecognizer* gr = [[UIPanGestureRecognizer alloc] initWithTarget:self
+																			 action:@selector(didPan:)];
+		[self addGestureRecognizer:gr];
 	}
 	return self;
+}
+
+- (void)didPan:(UIGestureRecognizer*)gr
+{
+	if ((UIGestureRecognizerStateCancelled == gr.state ||
+			  UIGestureRecognizerStateEnded == gr.state ||
+			  UIGestureRecognizerStateFailed == gr.state))
+	{
+		self.draggingTop = NO;
+		self.draggingBottom = NO;
+		self.draggingRight = NO;
+		self.draggingLeft = NO;
+	}
+	else
+	{
+		CGPoint offset = [(UIPanGestureRecognizer*)gr translationInView:self];
+		
+		CGAffineTransform cropBoxTransform = [self cropBoxTransform];
+		CGRect transformedBox = CGRectApplyAffineTransform(self.initialCropFrame, cropBoxTransform);
+		
+		UIEdgeInsets insets = UIEdgeInsetsZero;
+		
+		if (self.draggingTop)
+		{
+			insets.top = offset.y;
+		}
+		else if (self.draggingBottom)
+		{
+			insets.bottom = -offset.y;
+		}
+		
+		if (self.draggingLeft)
+		{
+			insets.left = offset.x;
+		}
+		else if (self.draggingRight)
+		{
+			insets.right = -offset.x;
+		}
+		
+		transformedBox = UIEdgeInsetsInsetRect(transformedBox, insets);
+		
+		self.cropFrame = CGRectApplyAffineTransform(transformedBox, CGAffineTransformInvert(cropBoxTransform));
+		self.cropFrame = CGRectStandardize(self.cropFrame);
+	}
+
+	[self setNeedsDisplay];
 }
 
 - (id)hitTest:(CGPoint)point withEvent:(UIEvent *)event
@@ -33,7 +91,41 @@
     UIView* hitView = [super hitTest:point withEvent:event];
     if (hitView == self)
 	{
-		// TODO Look for hits on the cropping frame edit handles
+		CGAffineTransform cropBoxTransform = [self cropBoxTransform];
+		CGRect transformedBox = CGRectApplyAffineTransform(self.cropFrame, cropBoxTransform);
+		
+		CGRect outerBox = CGRectInset(transformedBox, -sHandleTolerance / 2, -sHandleTolerance / 2);
+		
+		if (CGRectContainsPoint(outerBox, point))
+		{
+			self.initialCropFrame = self.cropFrame;
+			
+			CGRect innerBox = CGRectInset(transformedBox, sHandleTolerance / 2, sHandleTolerance / 2);
+			
+			if (!CGRectContainsPoint(innerBox, point))
+			{
+				if (fabsf(point.y - CGRectGetMinY(transformedBox)) < sHandleTolerance)
+				{
+					self.draggingTop = YES;
+				}
+				else if (fabsf(point.y - CGRectGetMaxY(transformedBox)) < sHandleTolerance)
+				{
+					self.draggingBottom = YES;
+				}
+				
+				if (fabsf(point.x - CGRectGetMaxX(transformedBox)) < sHandleTolerance)
+				{
+					self.draggingRight = YES;
+				}
+				else if (fabsf(point.x - CGRectGetMinX(transformedBox)) < sHandleTolerance)
+				{
+					self.draggingLeft = YES;
+				}
+				
+				return self;
+			}
+		}
+
 		return nil;
     }
     else
@@ -54,17 +146,23 @@
 	[self setNeedsDisplay];
 }
 
-- (void)drawRect:(CGRect)rect
+- (CGAffineTransform)cropBoxTransform
 {
-	CGContextRef ctx = UIGraphicsGetCurrentContext();
-	CGContextSaveGState(ctx);
-
 	CGAffineTransform cropBoxTransform = CGAffineTransformMake(self.zoomScale,
 															   0,
 															   0,
 															   self.zoomScale,
 															   self.offset.width,
 															   self.offset.height);
+	return cropBoxTransform;
+}
+
+- (void)drawRect:(CGRect)rect
+{
+	CGContextRef ctx = UIGraphicsGetCurrentContext();
+	CGContextSaveGState(ctx);
+
+	CGAffineTransform cropBoxTransform = [self cropBoxTransform];
 
 	// Darken the outside of the crop box
 	{
@@ -98,56 +196,59 @@
 		CGMutablePathRef cornerPath = CGPathCreateMutable();
 		const NSInteger handleSize = 20 / self.zoomScale;
 
+		NSInteger horizHandleSize = MIN(handleSize, CGRectGetWidth(self.cropFrame));
+		NSInteger vertHandleSize = MIN(handleSize, CGRectGetHeight(self.cropFrame));
+		
 		CGPathMoveToPoint(cornerPath,
 						  &cropBoxTransform,
 						  CGRectGetMinX(self.cropFrame) + handleOffset,
-						  CGRectGetMinY(self.cropFrame) + handleOffset + handleSize);
+						  CGRectGetMinY(self.cropFrame) + handleOffset + vertHandleSize);
 		CGPathAddLineToPoint(cornerPath,
 							 &cropBoxTransform,
 							 CGRectGetMinX(self.cropFrame) + handleOffset,
 							 CGRectGetMinY(self.cropFrame) + handleOffset);
 		CGPathAddLineToPoint(cornerPath,
 							 &cropBoxTransform,
-							 CGRectGetMinX(self.cropFrame) + handleOffset + handleSize,
+							 CGRectGetMinX(self.cropFrame) + handleOffset + horizHandleSize,
 							 CGRectGetMinY(self.cropFrame) + handleOffset);
 
 		CGPathMoveToPoint(cornerPath,
 						  &cropBoxTransform,
 						  CGRectGetMaxX(self.cropFrame) - handleOffset,
-						  CGRectGetMinY(self.cropFrame) + handleOffset + handleSize);
+						  CGRectGetMinY(self.cropFrame) + handleOffset + vertHandleSize);
 		CGPathAddLineToPoint(cornerPath,
 							 &cropBoxTransform,
 							 CGRectGetMaxX(self.cropFrame) - handleOffset,
 							 CGRectGetMinY(self.cropFrame) + handleOffset);
 		CGPathAddLineToPoint(cornerPath,
 							 &cropBoxTransform,
-							 CGRectGetMaxX(self.cropFrame) - handleOffset - handleSize,
+							 CGRectGetMaxX(self.cropFrame) - handleOffset - horizHandleSize,
 							 CGRectGetMinY(self.cropFrame) + handleOffset);
 
 		CGPathMoveToPoint(cornerPath,
 						  &cropBoxTransform,
 						  CGRectGetMinX(self.cropFrame) + handleOffset,
-						  CGRectGetMaxY(self.cropFrame) - handleOffset - handleSize);
+						  CGRectGetMaxY(self.cropFrame) - handleOffset - vertHandleSize);
 		CGPathAddLineToPoint(cornerPath,
 							 &cropBoxTransform,
 							 CGRectGetMinX(self.cropFrame) + handleOffset,
 							 CGRectGetMaxY(self.cropFrame) - handleOffset);
 		CGPathAddLineToPoint(cornerPath,
 							 &cropBoxTransform,
-							 CGRectGetMinX(self.cropFrame) + handleOffset + handleSize,
+							 CGRectGetMinX(self.cropFrame) + handleOffset + horizHandleSize,
 							 CGRectGetMaxY(self.cropFrame) - handleOffset);
 		
 		CGPathMoveToPoint(cornerPath,
 						  &cropBoxTransform,
 						  CGRectGetMaxX(self.cropFrame) - handleOffset,
-						  CGRectGetMaxY(self.cropFrame) - handleOffset - handleSize);
+						  CGRectGetMaxY(self.cropFrame) - handleOffset - vertHandleSize);
 		CGPathAddLineToPoint(cornerPath,
 							 &cropBoxTransform,
 							 CGRectGetMaxX(self.cropFrame) - handleOffset,
 							 CGRectGetMaxY(self.cropFrame) - handleOffset);
 		CGPathAddLineToPoint(cornerPath,
 							 &cropBoxTransform,
-							 CGRectGetMaxX(self.cropFrame) - handleOffset - handleSize,
+							 CGRectGetMaxX(self.cropFrame) - handleOffset - horizHandleSize,
 							 CGRectGetMaxY(self.cropFrame) - handleOffset);
 		
 		CGContextAddPath(ctx, cornerPath);
