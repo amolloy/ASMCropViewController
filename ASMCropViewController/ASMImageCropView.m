@@ -8,7 +8,7 @@
 
 #import "ASMImageCropView.h"
 
-static const NSInteger sHandleTolerance = 44;
+static const NSInteger sHandleTolerance = 22;
 
 @interface ASMImageCropView ()
 @property (assign, nonatomic) BOOL draggingTop;
@@ -62,11 +62,31 @@ static const NSInteger sHandleTolerance = 44;
 		if (self.draggingFrame)
 		{
 			transformedBox = CGRectOffset(transformedBox, offset.x, offset.y);
+
+			transformedBox = CGRectApplyAffineTransform(transformedBox, CGAffineTransformInvert(cropBoxTransform));
+			transformedBox = CGRectStandardize(transformedBox);
+			
+			if (CGRectGetMinX(transformedBox) < 0)
+			{
+				transformedBox.origin.x = 0;
+			}
+			if (CGRectGetMaxX(transformedBox) > self.imageSize.width)
+			{
+				transformedBox.origin.x = self.imageSize.width - CGRectGetWidth(transformedBox);
+			}
+			if (CGRectGetMinY(transformedBox) < 0)
+			{
+				transformedBox.origin.y = 0;
+			}
+			if (CGRectGetMaxY(transformedBox) > self.imageSize.height)
+			{
+				transformedBox.origin.y = self.imageSize.height - CGRectGetHeight(transformedBox);
+			}
 		}
 		else
 		{
 			UIEdgeInsets insets = UIEdgeInsetsZero;
-			
+
 			if (self.draggingTop)
 			{
 				insets.top = offset.y;
@@ -86,10 +106,31 @@ static const NSInteger sHandleTolerance = 44;
 			}
 			
 			transformedBox = UIEdgeInsetsInsetRect(transformedBox, insets);
+			transformedBox = CGRectApplyAffineTransform(transformedBox, CGAffineTransformInvert(cropBoxTransform));
+			
+			insets = UIEdgeInsetsZero;
+			
+			if (CGRectGetMinX(transformedBox) < 0)
+			{
+				insets.left = -CGRectGetMinX(transformedBox);
+			}
+			if (CGRectGetMaxX(transformedBox) > self.imageSize.width)
+			{
+				insets.right = CGRectGetMaxX(transformedBox) - self.imageSize.width;
+			}
+			if (CGRectGetMinY(transformedBox) < 0)
+			{
+				insets.top = -CGRectGetMinY(transformedBox);
+			}
+			if (CGRectGetMaxY(transformedBox) > self.imageSize.height)
+			{
+				insets.bottom = CGRectGetMaxY(transformedBox) - self.imageSize.height;
+			}
+			
+			transformedBox = UIEdgeInsetsInsetRect(transformedBox, insets);
 		}
 		
-		self.cropFrame = CGRectApplyAffineTransform(transformedBox, CGAffineTransformInvert(cropBoxTransform));
-		self.cropFrame = CGRectStandardize(self.cropFrame);
+		self.cropFrame = transformedBox;
 	}
 
 	[self setNeedsDisplay];

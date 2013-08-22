@@ -45,6 +45,7 @@
 	
 	self.scrollView.minimumZoomScale = zoomScale;
 	self.scrollView.zoomScale = zoomScale;
+	self.cropView.imageSize = self.image.size;
 	self.cropView.zoomScale = self.scrollView.zoomScale;
 	
 	// For testing
