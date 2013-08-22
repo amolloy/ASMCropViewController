@@ -1,18 +1,18 @@
 //
-//  ASMViewController.m
+//  ASMCropImageViewController.m
 //  ASMCropViewController
 //
 //  Created by The Molloys on 8/22/13.
 //  Copyright (c) 2013 Andy Molloy. All rights reserved.
 //
 
-#import "ASMViewController.h"
+#import "ASMCropImageViewController.h"
 
-@interface ASMViewController ()
+@interface ASMCropImageViewController ()
 
 @end
 
-@implementation ASMViewController
+@implementation ASMCropImageViewController
 
 - (void)viewDidLoad
 {

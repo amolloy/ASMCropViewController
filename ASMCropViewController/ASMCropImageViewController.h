@@ -1,5 +1,5 @@
 //
-//  ASMViewController.h
+//  ASMCropImageViewController.h
 //  ASMCropViewController
 //
 //  Created by The Molloys on 8/22/13.
@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ASMViewController : UIViewController
+@interface ASMCropImageViewController : UIViewController
+
+@property (strong, nonatomic) UIImage* image;
 
 @end

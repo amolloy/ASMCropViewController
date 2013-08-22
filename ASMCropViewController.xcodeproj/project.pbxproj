@@ -13,14 +13,14 @@
 		B4C2B76217C6271C001B95F3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B4C2B76017C6271C001B95F3 /* InfoPlist.strings */; };
 		B4C2B76417C6271C001B95F3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C2B76317C6271C001B95F3 /* main.m */; };
 		B4C2B76817C6271C001B95F3 /* ASMAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C2B76717C6271C001B95F3 /* ASMAppDelegate.m */; };
-		B4C2B76B17C6271C001B95F3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4C2B76917C6271C001B95F3 /* Main.storyboard */; };
-		B4C2B76E17C6271C001B95F3 /* ASMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C2B76D17C6271C001B95F3 /* ASMViewController.m */; };
+		B4C2B76E17C6271C001B95F3 /* ASMCropImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C2B76D17C6271C001B95F3 /* ASMCropImageViewController.m */; };
 		B4C2B77017C6271C001B95F3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B4C2B76F17C6271C001B95F3 /* Images.xcassets */; };
 		B4C2B77717C6271C001B95F3 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4C2B77617C6271C001B95F3 /* XCTest.framework */; };
 		B4C2B77817C6271C001B95F3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4C2B75717C6271C001B95F3 /* Foundation.framework */; };
 		B4C2B77917C6271C001B95F3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4C2B75B17C6271C001B95F3 /* UIKit.framework */; };
 		B4C2B78117C6271C001B95F3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B4C2B77F17C6271C001B95F3 /* InfoPlist.strings */; };
 		B4C2B78317C6271C001B95F3 /* ASMCropViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B4C2B78217C6271C001B95F3 /* ASMCropViewControllerTests.m */; };
+		B4C2B78D17C62896001B95F3 /* IMG_6413.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B4C2B78C17C62896001B95F3 /* IMG_6413.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,15 +44,15 @@
 		B4C2B76517C6271C001B95F3 /* ASMCropViewController-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ASMCropViewController-Prefix.pch"; sourceTree = "<group>"; };
 		B4C2B76617C6271C001B95F3 /* ASMAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ASMAppDelegate.h; sourceTree = "<group>"; };
 		B4C2B76717C6271C001B95F3 /* ASMAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ASMAppDelegate.m; sourceTree = "<group>"; };
-		B4C2B76A17C6271C001B95F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		B4C2B76C17C6271C001B95F3 /* ASMViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ASMViewController.h; sourceTree = "<group>"; };
-		B4C2B76D17C6271C001B95F3 /* ASMViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ASMViewController.m; sourceTree = "<group>"; };
+		B4C2B76C17C6271C001B95F3 /* ASMCropImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ASMCropImageViewController.h; sourceTree = "<group>"; };
+		B4C2B76D17C6271C001B95F3 /* ASMCropImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ASMCropImageViewController.m; sourceTree = "<group>"; };
 		B4C2B76F17C6271C001B95F3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B4C2B77517C6271C001B95F3 /* ASMCropViewControllerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ASMCropViewControllerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4C2B77617C6271C001B95F3 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		B4C2B77E17C6271C001B95F3 /* ASMCropViewControllerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ASMCropViewControllerTests-Info.plist"; sourceTree = "<group>"; };
 		B4C2B78017C6271C001B95F3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B4C2B78217C6271C001B95F3 /* ASMCropViewControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ASMCropViewControllerTests.m; sourceTree = "<group>"; };
+		B4C2B78C17C62896001B95F3 /* IMG_6413.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_6413.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,11 +112,11 @@
 		B4C2B75D17C6271C001B95F3 /* ASMCropViewController */ = {
 			isa = PBXGroup;
 			children = (
+				B4C2B78C17C62896001B95F3 /* IMG_6413.jpg */,
 				B4C2B76617C6271C001B95F3 /* ASMAppDelegate.h */,
 				B4C2B76717C6271C001B95F3 /* ASMAppDelegate.m */,
-				B4C2B76917C6271C001B95F3 /* Main.storyboard */,
-				B4C2B76C17C6271C001B95F3 /* ASMViewController.h */,
-				B4C2B76D17C6271C001B95F3 /* ASMViewController.m */,
+				B4C2B76C17C6271C001B95F3 /* ASMCropImageViewController.h */,
+				B4C2B76D17C6271C001B95F3 /* ASMCropImageViewController.m */,
 				B4C2B76F17C6271C001B95F3 /* Images.xcassets */,
 				B4C2B75E17C6271C001B95F3 /* Supporting Files */,
 			);
@@ -231,7 +231,7 @@
 			files = (
 				B4C2B77017C6271C001B95F3 /* Images.xcassets in Resources */,
 				B4C2B76217C6271C001B95F3 /* InfoPlist.strings in Resources */,
-				B4C2B76B17C6271C001B95F3 /* Main.storyboard in Resources */,
+				B4C2B78D17C62896001B95F3 /* IMG_6413.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,7 +252,7 @@
 			files = (
 				B4C2B76817C6271C001B95F3 /* ASMAppDelegate.m in Sources */,
 				B4C2B76417C6271C001B95F3 /* main.m in Sources */,
-				B4C2B76E17C6271C001B95F3 /* ASMViewController.m in Sources */,
+				B4C2B76E17C6271C001B95F3 /* ASMCropImageViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,14 +281,6 @@
 				B4C2B76117C6271C001B95F3 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		B4C2B76917C6271C001B95F3 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B4C2B76A17C6271C001B95F3 /* Base */,
-			);
-			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 		B4C2B77F17C6271C001B95F3 /* InfoPlist.strings */ = {
@@ -455,6 +447,7 @@
 				B4C2B78817C6271C001B95F3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B4C2B78917C6271C001B95F3 /* Build configuration list for PBXNativeTarget "ASMCropViewControllerTests" */ = {
 			isa = XCConfigurationList;
@@ -463,6 +456,7 @@
 				B4C2B78B17C6271C001B95F3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

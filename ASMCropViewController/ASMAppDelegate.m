@@ -7,12 +7,14 @@
 //
 
 #import "ASMAppDelegate.h"
+#import "ASMCropImageViewController.h"
 
 @implementation ASMAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+	self.window.rootViewController = [[ASMCropImageViewController alloc] init];
+	
     return YES;
 }
 							
