@@ -50,7 +50,7 @@
 	
 	// For testing
 	CGRect cropRect = self.imageView.bounds;
-	cropRect = CGRectInset(cropRect, 100, 100);
+	cropRect = CGRectInset(cropRect, 400, 400);
 	self.cropView.cropFrame = cropRect;
 }
 
@@ -75,6 +75,16 @@
 	}
 	
 	return CGSizeMake(offsetX, offsetY);
+}
+
+- (UIImage*)croppedImage
+{
+	CGImageRef subImage = CGImageCreateWithImageInRect(self.image.CGImage,
+													   self.cropView.cropFrame);
+	UIImage* croppedImage = [UIImage imageWithCGImage:subImage];
+	CGImageRelease(subImage);
+	
+	return croppedImage;
 }
 
 #pragma mark Scroll View Delegate

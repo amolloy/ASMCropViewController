@@ -12,4 +12,6 @@
 
 @property (strong, nonatomic) UIImage* image;
 
+- (UIImage*)croppedImage;
+
 @end
