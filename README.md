@@ -3,7 +3,7 @@ ASMCropViewController
 
 Provides yet another UI for cropping images in iOS. Similar to the UI crop UI in the built in Photos app, but without the auto-zooming behavior.
 
-<img src="//raw.github.com/amolloy/ASMCropViewController/master/Screenshots/ScreenshotForReadme.png">
+<img src="https://raw.github.com/amolloy/ASMCropViewController/master/Screenshots/ScreenshotForReadme.png">
 
 ## License
 
