@@ -19,7 +19,6 @@ MIT License.
 ```objective-c
 ASMCropImageViewController* controller = [[ASMCropImageViewController alloc] init];
 controller.image = [UIImage imageNamed:@"IMG_7999.jpg"];
-controller.aspectRatio = CGSizeMake(9, 16);  // Optional
 	
 UINavigationController* navController = [[UINavigationController alloc] initWithRootViewController:controller];
 [self presentViewController:navController animated:YES completion:NULL];
@@ -28,7 +27,7 @@ UINavigationController* navController = [[UINavigationController alloc] initWith
 By default, the crop frame is not constrained to any aspect ratio. You can change that without
 
 ```objective-c
-controller.aspectRatio = CGSizeMake(9, 16);  // Optional
+controller.aspectRatio = CGSizeMake(9, 16);
 ```
 
 To go back to unconstrained, just set aspectRatio to CGSizeZero.
