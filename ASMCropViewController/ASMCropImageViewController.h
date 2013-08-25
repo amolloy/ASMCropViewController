@@ -11,6 +11,7 @@
 @interface ASMCropImageViewController : UIViewController
 
 @property (strong, nonatomic) UIImage* image;
+@property (assign, nonatomic) CGSize aspectRatio;
 
 - (UIImage*)croppedImage;
 

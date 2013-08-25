@@ -21,7 +21,8 @@
 	
 	self.cropImageViewController = [[ASMCropImageViewController alloc] init];
 	self.cropImageViewController.image = [UIImage imageNamed:@"IMG_7999.jpg"];
-
+	self.cropImageViewController.aspectRatio = CGSizeMake(9, 16);
+	
 	UINavigationController* navController = [[UINavigationController alloc]
 											 initWithRootViewController:self.cropImageViewController];
 	

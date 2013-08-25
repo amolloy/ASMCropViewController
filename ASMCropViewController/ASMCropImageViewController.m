@@ -18,6 +18,12 @@
 
 @implementation ASMCropImageViewController
 
+- (void)setAspectRatio:(CGSize)aspectRatio
+{
+	_aspectRatio = aspectRatio;
+	self.cropView.aspectRatio = aspectRatio;
+}
+
 - (void)viewDidLoad
 {
 	self.scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
@@ -29,6 +35,7 @@
 
 	self.cropView = [[ASMImageCropView alloc] initWithFrame:self.scrollView.bounds];
 	[self.view addSubview:self.cropView];
+	self.cropView.aspectRatio = self.aspectRatio;
 	
 	[self setupImageView];
 }
@@ -47,11 +54,6 @@
 	self.scrollView.zoomScale = zoomScale;
 	self.cropView.imageSize = self.image.size;
 	self.cropView.zoomScale = self.scrollView.zoomScale;
-	
-	// For testing
-	CGRect cropRect = self.imageView.bounds;
-	cropRect = CGRectInset(cropRect, 400, 400);
-	self.cropView.cropFrame = cropRect;
 }
 
 - (void)setImage:(UIImage *)image

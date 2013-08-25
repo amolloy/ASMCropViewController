@@ -14,5 +14,6 @@
 @property (assign, nonatomic) CGRect cropFrame;
 @property (assign, nonatomic) CGFloat zoomScale;
 @property (assign, nonatomic) CGSize offset;
+@property (assign, nonatomic) CGSize aspectRatio;
 
 @end

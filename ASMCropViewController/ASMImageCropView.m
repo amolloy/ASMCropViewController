@@ -7,6 +7,7 @@
 //
 
 #import "ASMImageCropView.h"
+#import <AVFoundation/AVFoundation.h>
 
 static const NSInteger sHandleTolerance = 22;
 
@@ -29,7 +30,6 @@ static const NSInteger sHandleTolerance = 22;
 	{
 		self.backgroundColor = [UIColor clearColor];
 		self.cropFrame = CGRectZero;
-		self.cropFrame = CGRectMake(0, 0, frame.size.width, frame.size.height);
 		
 		UIPanGestureRecognizer* gr = [[UIPanGestureRecognizer alloc] initWithTarget:self
 																			 action:@selector(didPan:)];
@@ -37,6 +37,21 @@ static const NSInteger sHandleTolerance = 22;
 	}
 	return self;
 }
+
+- (void)setImageSize:(CGSize)imageSize
+{
+	_imageSize = imageSize;
+	self.cropFrame = CGRectMake(0, 0, imageSize.width, imageSize.height);
+	self.aspectRatio = self.aspectRatio;
+}
+
+- (void)setAspectRatio:(CGSize)aspectRatio
+{
+	_aspectRatio = aspectRatio;
+	if (!CGSizeEqualToSize(CGSizeZero, self.aspectRatio))
+	{
+		self.cropFrame = AVMakeRectWithAspectRatioInsideRect(self.aspectRatio, self.cropFrame);
+	}}
 
 - (void)didPan:(UIGestureRecognizer*)gr
 {
@@ -78,35 +93,153 @@ static const NSInteger sHandleTolerance = 22;
 			{
 				updatedCropFrame.origin.y = self.imageSize.height - CGRectGetHeight(updatedCropFrame);
 			}
+			
+			self.cropFrame = updatedCropFrame;
 		}
 		else
 		{
-			UIEdgeInsets insets = UIEdgeInsetsZero;
+			BOOL aspectConstrained = !CGSizeEqualToSize(self.aspectRatio, CGSizeZero);
 
-			if (self.draggingTop)
+			if (aspectConstrained)
 			{
-				insets.top = imageOffset.y;
+				if (self.draggingTop || self.draggingBottom)
+				{
+					UIEdgeInsets insets = UIEdgeInsetsZero;
+
+					if (self.draggingTop)
+					{
+						insets.top = imageOffset.y;
+					}
+					else
+					{
+						insets.bottom = -imageOffset.y;
+					}
+					updatedCropFrame = UIEdgeInsetsInsetRect(updatedCropFrame, insets);
+					updatedCropFrame = CGRectIntersection(updatedCropFrame,
+														  CGRectMake(0, 0, self.imageSize.width, self.imageSize.height));
+
+					CGFloat newWidth = CGRectGetHeight(updatedCropFrame) * self.aspectRatio.width / self.aspectRatio.height;
+
+					updatedCropFrame.origin.x = CGRectGetMidX(updatedCropFrame) - newWidth / 2;
+					updatedCropFrame.size.width = newWidth;
+					
+					BOOL fixup = NO;
+					if (CGRectGetMinX(updatedCropFrame) < 0)
+					{
+						updatedCropFrame.size.width = CGRectGetMidX(updatedCropFrame) * 2;
+						updatedCropFrame.origin.x = 0;
+						fixup = YES;
+					}
+					else if (CGRectGetMaxX(updatedCropFrame) >= self.imageSize.width)
+					{
+						updatedCropFrame.size.width = (self.imageSize.width - CGRectGetMidX(updatedCropFrame)) * 2;
+						updatedCropFrame.origin.x = self.imageSize.width - CGRectGetWidth(updatedCropFrame);
+						fixup = YES;
+					}
+					
+					if (fixup)
+					{
+						CGFloat newHeight = CGRectGetWidth(updatedCropFrame) * self.aspectRatio.height / self.aspectRatio.width;
+						
+						insets = UIEdgeInsetsZero;
+						CGFloat heightDiff = CGRectGetHeight(updatedCropFrame) - newHeight;
+						
+						if (self.draggingTop)
+						{
+							insets.top = heightDiff;
+						}
+						else
+						{
+							insets.bottom = heightDiff;
+						}
+
+						updatedCropFrame = UIEdgeInsetsInsetRect(updatedCropFrame, insets);
+					}
+				}
+				else
+				{
+					UIEdgeInsets insets = UIEdgeInsetsZero;
+					
+					if (self.draggingLeft)
+					{
+						insets.left = imageOffset.x;
+					}
+					else
+					{
+						insets.right = -imageOffset.x;
+					}
+					updatedCropFrame = UIEdgeInsetsInsetRect(updatedCropFrame, insets);
+					updatedCropFrame = CGRectIntersection(updatedCropFrame,
+														  CGRectMake(0, 0, self.imageSize.width, self.imageSize.height));
+					
+					CGFloat newHeight = CGRectGetWidth(updatedCropFrame) * self.aspectRatio.height / self.aspectRatio.width;
+					
+					updatedCropFrame.origin.y = CGRectGetMidY(updatedCropFrame) - newHeight / 2;
+					updatedCropFrame.size.height = newHeight;
+					
+					BOOL fixup = NO;
+					if (CGRectGetMinY(updatedCropFrame) < 0)
+					{
+						updatedCropFrame.size.height = CGRectGetMidY(updatedCropFrame) * 2;
+						updatedCropFrame.origin.y = 0;
+						fixup = YES;
+					}
+					else if (CGRectGetMaxY(updatedCropFrame) >= self.imageSize.height)
+					{
+						updatedCropFrame.size.height = (self.imageSize.height - CGRectGetMidY(updatedCropFrame)) * 2;
+						updatedCropFrame.origin.y = self.imageSize.height - CGRectGetHeight(updatedCropFrame);
+						fixup = YES;
+					}
+					
+					if (fixup)
+					{
+						CGFloat newWidth = CGRectGetHeight(updatedCropFrame) * self.aspectRatio.width / self.aspectRatio.height;
+						
+						insets = UIEdgeInsetsZero;
+						CGFloat widthDiff = CGRectGetHeight(updatedCropFrame) - newWidth;
+						
+						if (self.draggingLeft)
+						{
+							insets.left = widthDiff;
+						}
+						else
+						{
+							insets.right = widthDiff;
+						}
+						
+						updatedCropFrame = UIEdgeInsetsInsetRect(updatedCropFrame, insets);
+					}
+				}
+				
+				self.cropFrame = updatedCropFrame;
 			}
-			else if (self.draggingBottom)
+			else
 			{
-				insets.bottom = -imageOffset.y;
+				UIEdgeInsets insets = UIEdgeInsetsZero;
+				
+				if (self.draggingTop)
+				{
+					insets.top = imageOffset.y;
+				}
+				else if (self.draggingBottom)
+				{
+					insets.bottom = -imageOffset.y;
+				}
+				
+				if (self.draggingLeft)
+				{
+					insets.left = imageOffset.x;
+				}
+				else if (self.draggingRight)
+				{
+					insets.right = -imageOffset.x;
+				}
+				updatedCropFrame = UIEdgeInsetsInsetRect(updatedCropFrame, insets);
+				updatedCropFrame = CGRectIntersection(updatedCropFrame,
+													 CGRectMake(0, 0, self.imageSize.width, self.imageSize.height));
+				self.cropFrame = updatedCropFrame;
 			}
-			
-			if (self.draggingLeft)
-			{
-				insets.left = imageOffset.x;
-			}
-			else if (self.draggingRight)
-			{
-				insets.right = -imageOffset.x;
-			}
-			
-			updatedCropFrame = UIEdgeInsetsInsetRect(updatedCropFrame, insets);
-			updatedCropFrame = CGRectIntersection(updatedCropFrame,
-												  CGRectMake(0, 0, self.imageSize.width, self.imageSize.height));
 		}
-		
-		self.cropFrame = updatedCropFrame;
 	}
 
 	[self setNeedsDisplay];
