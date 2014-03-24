@@ -96,14 +96,6 @@
 	return self.imageView;
 }
 
-- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view
-{
-}
-
-- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale
-{
-}
-
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView
 {
 	CGSize offset = [self offsetForScrollView:scrollView];
