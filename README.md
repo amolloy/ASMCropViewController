@@ -24,7 +24,7 @@ UINavigationController* navController = [[UINavigationController alloc] initWith
 [self presentViewController:navController animated:YES completion:NULL];
 ```
 
-By default, the crop frame is not constrained to any aspect ratio. You can change that without
+By default, the crop frame is not constrained to any aspect ratio. You can change this with
 
 ```objective-c
 controller.aspectRatio = CGSizeMake(9, 16);
