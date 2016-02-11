@@ -11,7 +11,7 @@ MIT License.
 
 ## Installation
 
-### Cocoapods 
+### CocoaPods 
 `pod 'ASMCropViewController'`
 
 ## Usage
